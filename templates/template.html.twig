@@ -32,7 +32,7 @@
     <header class="jumbotron jumbotron-fluid text-white bg-dark">
         <div class="container">
             {% if app.user %}
-                <h1>Gestion de projets : {{ app.user.civility }} {{ app.user.lastname }} {{ app.user.firstname }}</h1><hr>
+                <h1>Gestion des projets de : {{ app.user.civility }} {{ app.user.lastname }} {{ app.user.firstname }}</h1><hr>
             {% endif %}        
             <h3>{% block title %}{% endblock %}</h3>
 
