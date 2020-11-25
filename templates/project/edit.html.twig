@@ -1,0 +1,67 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Gérer : {{ project.name }}{% endblock %}
+
+{% block main %}
+    <div class="row justify-content-between">
+
+        <div class="card bg-ligh border-dark mx-2">
+            <div class="card-header">
+                <h5 class="card-title">Informations projet</h5>
+            </div>
+            <div class="card-body">
+                {{ include('project/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+            </div>
+            <div class="card-footer d-flex justify-content-around">
+                {{ include('project/_close_form.html.twig') }}
+                {{ include('project/_archive_form.html.twig') }}
+                {{ include('project/_delete_form.html.twig') }}
+            </div>
+        </div>
+
+        <div class="card bg-ligh border-dark mx-2">
+            <div class="card-header d-flex justify-content-between">
+                <h5 class="card-title">Liste des tâches</h5>
+                <a href="{{ path('task_new', {'id': project.id}) }}">Ajouter une tâche</a>
+            </div>           
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        {# <th>Id</th> #}
+                        <th>Nom</th>
+                        {# <th>Description</th> #}
+                        <th>Etat</th>
+                        <th>Créé le</th>
+                        <th>Pour le</th>
+                        <th>Fini le</th>
+                        {# <th>Actions</th> #}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for task in project.tasks %}
+                    <tr>
+                        {# <td>{{ task.id }}</td> #}
+                        <td><a href="{{ path('task_edit', {'id': task.id}) }}">{{ task.name }}</a></td>
+                        {# <td>{{ task.description }}</td> #}
+                        <td>{{ task.state }}</td>
+                        <td>{{ task.openDate ? task.openDate|date('d/m/Y') }}</td>
+                        <td>{{ task.scheduleDate ? task.scheduleDate|date('d/m/Y') }}</td>
+                        <td>{{ task.closeDate ? task.closeDate|date('d/m/Y') }}</td>
+                        {# <td>
+                            <a href="{{ path('task_edit', {'id': task.id}) }}">edit</a>
+                        </td> #}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">Aucune tâche enregistrée</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% endblock %}
+
+

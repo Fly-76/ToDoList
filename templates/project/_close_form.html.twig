@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('project_close', {'id': project.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir cloturer ce projet?');">
+    <input type="hidden" name="_method" value="CLOSE">
+    <input type="hidden" name="_token" value="{{ csrf_token('close' ~ project.id) }}">
+    <button class="btn">Cloturer</button>
+</form>
