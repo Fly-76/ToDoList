@@ -1,10 +1,7 @@
 {% extends 'template.html.twig' %}
 
-{% block title %}Projet {{ project.name }} : Nouvelle tâche{% endblock %}
+{% block title %}Projet {{ project.name }} / Nouvelle tâche{% endblock %}
 
 {% block main %}
-
     {{ include('task/_form.html.twig') }}
-
-    {# <a href="{{ path('project_index') }}">back to list</a> #}
 {% endblock %}
