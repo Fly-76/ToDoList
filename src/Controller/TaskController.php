@@ -20,21 +20,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class TaskController extends AbstractController
 {
     /**
-     * @Route("/", name="task_index", methods={"GET"})
-     */
-    public function index(TaskRepository $taskRepository): Response
-    {
-        return $this->render('task/index.html.twig', [
-            'tasks' => $taskRepository->findAll(),
-        ]);
-    }
-
-    /**
      * @Route("/new/{id}", name="task_new", methods={"GET","POST"})
      */
     public function new(Request $request, Project $project): Response
     {
         $task = new Task();
+        $task->setScheduleDate(new \DateTime());
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
@@ -47,22 +38,17 @@ class TaskController extends AbstractController
             $entityManager->persist($task);
             $entityManager->flush();
 
-            return $this->redirectToRoute('project_index');
+            return $this->redirect(
+                $this->generateUrl('project_edit', [
+                    'id' => $project->getId(),
+                ])                    
+            );
         }
 
         return $this->render('task/new.html.twig', [
             'task' => $task,
+            'project' => $project,
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="task_show", methods={"GET"})
-     */
-    public function show(Task $task): Response
-    {
-        return $this->render('task/show.html.twig', [
-            'task' => $task,
         ]);
     }
 
@@ -74,14 +60,21 @@ class TaskController extends AbstractController
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
+        $project = $task->getProject();
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('task_index');
+            return $this->redirect(
+                $this->generateUrl('project_edit', [
+                    'id' => $project->getId(),
+                ])                    
+            );
         }
 
         return $this->render('task/edit.html.twig', [
             'task' => $task,
+            'project' => $project,
             'form' => $form->createView(),
         ]);
     }
@@ -91,12 +84,18 @@ class TaskController extends AbstractController
      */
     public function delete(Request $request, Task $task): Response
     {
+        $project = $task->getProject();
+
         if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($task);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('task_index');
+        return $this->redirect(
+            $this->generateUrl('project_edit', [
+                'id' => $project->getId(),
+            ])                    
+        );
     }
 }

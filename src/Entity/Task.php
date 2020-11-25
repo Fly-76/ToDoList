@@ -4,12 +4,15 @@ namespace App\Entity;
 
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TaskRepository::class)
  */
 class Task
 {
+    const STATES = ["A faire", "En cours", "Fini"];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -29,6 +32,7 @@ class Task
 
     /**
      * @ORM\Column(type="string", length=15)
+     * @Assert\Choice(choices=Project::STATES, message="Etat non valide")
      */
     private $state;
 

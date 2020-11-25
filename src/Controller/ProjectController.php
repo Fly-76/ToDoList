@@ -49,6 +49,7 @@ class ProjectController extends AbstractController
     public function new(Request $request): Response
     {
         $project = new Project();
+        $project->setScheduleDate(new \DateTime());
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
 
@@ -92,7 +93,11 @@ class ProjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('project_index');
+            return $this->redirect(
+                $this->generateUrl('project_edit', [
+                    'id' => $project->getId(),
+                ])                    
+            );
         }
 
         return $this->render('project/edit.html.twig', [
@@ -110,26 +115,6 @@ class ProjectController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($project);
             $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('project_index');
-    }
-
-    /**
-     * @Route("/{id}", name="project_close", methods={"CLOSE"})
-     */
-    public function close(Request $request, Project $project): Response
-    {
-        if ($this->isCsrfTokenValid('close'.$project->getId(), $request->request->get('_token'))) {
-
-            $this->addFlash(
-                'success',
-                'Projet cloturé'
-            );
-
-            // $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->remove($project);
-            // $entityManager->flush();
         }
 
         return $this->redirectToRoute('project_index');
