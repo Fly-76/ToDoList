@@ -1,0 +1,44 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Task index{% endblock %}
+
+{% block main %}
+    <h1>Task index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                {# <th>Description</th> #}
+                <th>State</th>
+                <th>OpenDate</th>
+                <th>ScheduleDate</th>
+                <th>CloseDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for task in project.tasks %}
+            <tr>
+                {# <td>{{ task.id }}</td> #}
+                <td>{{ task.name }}</td>
+                {# <td>{{ task.description }}</td> #}
+                <td>{{ task.state }}</td>
+                <td>{{ task.openDate ? task.openDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ task.scheduleDate ? task.scheduleDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ task.closeDate ? task.closeDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('task_show', {'id': task.id}) }}">show</a>
+                    <a href="{{ path('task_edit', {'id': task.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('task_new') }}">Create new</a>
+{% endblock %}
