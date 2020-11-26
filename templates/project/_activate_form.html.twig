@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('project_activate', {'id': project.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir réactiver ce projet?');">
+    <input type="hidden" name="_method" value="ACTIVATE">
+    <input type="hidden" name="_token" value="{{ csrf_token('activate' ~ project.id) }}">
+    <button class="btn btn-info w-100">Réactiver</button>
+</form>
