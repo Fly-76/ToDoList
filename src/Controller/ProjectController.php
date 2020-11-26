@@ -35,7 +35,7 @@ class ProjectController extends AbstractController
      */
     public function archive(ProjectRepository $projectRepository): Response
     {
-        return $this->render('project/index.html.twig', [
+        return $this->render('project/archive.html.twig', [
             'projects' => $projectRepository->findBy(
                 array('isArchived'=> true), 
                 array('scheduleDate' => 'DESC'),
@@ -69,16 +69,6 @@ class ProjectController extends AbstractController
         return $this->render('project/new.html.twig', [
             'project' => $project,
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="project_show", methods={"GET"})
-     */
-    public function show(Project $project): Response
-    {
-        return $this->render('project/show.html.twig', [
-            'project' => $project,
         ]);
     }
 
@@ -132,11 +122,23 @@ class ProjectController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($project);
             $entityManager->flush();
+        }
 
+        return $this->redirectToRoute('project_index');
+    }
 
-            // $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->remove($project);
-            // $entityManager->flush();
+    /**
+     * @Route("/{id}", name="project_activate", methods={"ACTIVATE"})
+     */
+    public function activate(Request $request, Project $project): Response
+    {
+        if ($this->isCsrfTokenValid('activate'.$project->getId(), $request->request->get('_token'))) {
+
+            $project->setIsArchived(false);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($project);
+            $entityManager->flush();
         }
 
         return $this->redirectToRoute('project_index');
