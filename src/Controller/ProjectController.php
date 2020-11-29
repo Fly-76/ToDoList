@@ -81,6 +81,10 @@ class ProjectController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($project->getState('Fini') && empty($project->getCloseDate()))
+                $project->setCloseDate(new \DateTime());
+            
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirect(
