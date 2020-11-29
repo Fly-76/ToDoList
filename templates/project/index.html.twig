@@ -14,7 +14,7 @@
                     <table>
                         <tr><th>Finir pour : </th><td>{{ project.scheduleDate ? project.scheduleDate|date('d/m/Y') }}</td></tr>
                         <tr><th>Fini le : </th><td>{{ project.closeDate ? project.closeDate|date('d/m/Y') }}</td></tr>
-                        <tr><th>Etat : </th><td>{{ project.state }}</td></tr>
+                        <tr><th>Etat : </th><td class="">{{ project.state }}</td></tr>
                     </table>
                 </div>
                 <div class="card-footer">
@@ -31,3 +31,9 @@
 {% endblock %}
 
 
+            {# <td class="table-primary">Primary</td>
+            <td class="table-success">Success</td>
+            table-info
+            <td class="table-warning">Warning</td>
+            <td class="table-danger">Warning</td> #}
+ 

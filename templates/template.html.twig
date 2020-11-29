@@ -12,9 +12,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav mr-auto">
-                <li><a class="nav-link" href="{{ path('project_index') }}">Mes projets</a></li>
-                <li><a class="nav-link" href="{{ path('project_new') }}">Nouveau</a></li>
-                <li><a class="nav-link" href="{{ path('project_archive') }}">Archives</a></li>
+                {% if app.user %}
+                    <li><a class="nav-link" href="{{ path('project_index') }}">Mes projets</a></li>
+                    <li><a class="nav-link" href="{{ path('project_new') }}">Nouveau</a></li>
+                    <li><a class="nav-link" href="{{ path('project_archive') }}">Archives</a></li>
+                {% endif %} 
             </ul>
             <div class="form-inline text-white">
                 {% if app.user %}
@@ -63,7 +65,6 @@
     <!-- footer -->
     <footer class="jumbotron jumbotron-fluid text-white bg-dark mt-4 mb-0">
         <div class="container">
-            <!-- <h1 class="display-4">ALB</h1> -->
             <p class="lead"><strong>µ Project</strong> Copyright © 2020 Franck Leuyer. Tous droits réservés.</p>
         </div>
     </footer>
