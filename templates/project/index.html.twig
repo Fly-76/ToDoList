@@ -5,6 +5,21 @@
 {% block main %}
 
     {% for project in projects %}
+
+        {% if project.state == 'A faire' %}
+            {% set status = 'table-primary' %}
+        {% elseif project.state == 'En cours' %}
+            {% set status = 'table-info' %}
+        {% else %}
+            {% set status = 'table-success' %}
+        {% endif %}
+
+        {% if "now"|date('Y-m-d') > project.scheduleDate|date('Y-m-d') and project.state != 'Fini'%}
+            {% set alarm = 'table-danger' %}
+        {% else %}
+            {% set alarm = '' %}
+        {% endif %}
+
         <article class ="col-12 col-sm-6 col-lg-3 my-2">
             <div class="card bg-ligh border-dark h-100">
                 <div class="card-header">
@@ -12,9 +27,9 @@
                 </div>
                 <div class="card-body align-center">
                     <table>
-                        <tr><th>Finir pour : </th><td>{{ project.scheduleDate ? project.scheduleDate|date('d/m/Y') }}</td></tr>
+                        <tr><th>Finir pour : </th><td class="{{ alarm }}" >{{ project.scheduleDate ? project.scheduleDate|date('d/m/Y') }}</td></tr>
                         <tr><th>Fini le : </th><td>{{ project.closeDate ? project.closeDate|date('d/m/Y') }}</td></tr>
-                        <tr><th>Etat : </th><td class="">{{ project.state }}</td></tr>
+                        <tr><th>Etat : </th><td class="{{ status }}">{{ project.state }}</td></tr>
                     </table>
                 </div>
                 <div class="card-footer">
