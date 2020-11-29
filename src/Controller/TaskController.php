@@ -63,8 +63,14 @@ class TaskController extends AbstractController
         $project = $task->getProject();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
 
+            if ($task->getState('Fini') && empty($task->getCloseDate()))
+                $task->setCloseDate(new \DateTime());
+            else
+                $project->setCloseDate(null);
+
+            $this->getDoctrine()->getManager()->flush();
+            
             return $this->redirect(
                 $this->generateUrl('project_edit', [
                     'id' => $project->getId(),
