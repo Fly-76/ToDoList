@@ -25,6 +25,22 @@
         <div class="card-body d-flex justify-content-between flex-wrap">
 
             {% for task in project.tasks %}
+
+                {% if task.state == 'A faire' %}
+                    {% set status = 'table-primary' %}
+                {% elseif task.state == 'En cours' %}
+                    {% set status = 'table-info' %}
+                {% else %}
+                    {% set status = 'table-success' %}
+                {% endif %}
+
+                {% if "now"|date('Y-m-d') > task.scheduleDate|date('Y-m-d') and task.state != 'Fini'%}
+                    {% set alarm = 'table-danger' %}
+                {% else %}
+                    {% set alarm = '' %}
+                {% endif %}
+
+
                 <article class ="col-12 col-sm-6 col-lg-3 my-2">
                     <div class="card bg-ligh border-dark h-100">
                         <div class="card-header">
@@ -32,9 +48,9 @@
                         </div>
                         <div class="card-body align-center">
                             <table>
-                                <tr><th>Finir pour : </th><td>{{ task.scheduleDate ? project.scheduleDate|date('d/m/Y') }}</td></tr>
+                                <tr><th>Finir pour : </th><td class="{{ alarm }}">{{ task.scheduleDate ? project.scheduleDate|date('d/m/Y') }}</td></tr>
                                 <tr><th>Fini le : </th><td>{{ task.closeDate ? project.closeDate|date('d/m/Y') }}</td></tr>
-                                <tr><th>Etat : </th><td>{{ task.state }}</td></tr>
+                                <tr><th>Etat : </th><td class="{{ status }}">{{ task.state }}</td></tr>
                             </table>
                             <p>{{ task.description }}</p>
                         </div>
