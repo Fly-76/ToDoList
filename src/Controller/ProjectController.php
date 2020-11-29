@@ -84,6 +84,8 @@ class ProjectController extends AbstractController
 
             if ($project->getState('Fini') && empty($project->getCloseDate()))
                 $project->setCloseDate(new \DateTime());
+            else
+                $project->setCloseDate(null);
             
             $this->getDoctrine()->getManager()->flush();
 
