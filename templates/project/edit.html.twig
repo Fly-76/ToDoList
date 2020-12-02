@@ -48,11 +48,11 @@
                         </div>
                         <div class="card-body align-center">
                             <table>
-                                <tr><th>Finir pour : </th><td class="{{ alarm }}">{{ task.scheduleDate ? project.scheduleDate|date('d/m/Y') }}</td></tr>
-                                <tr><th>Fini le : </th><td>{{ task.closeDate ? project.closeDate|date('d/m/Y') }}</td></tr>
+                                <tr><th>Finir pour : </th><td class="{{ alarm }}">{{ task.scheduleDate ? task.scheduleDate|date('d/m/Y') }}</td></tr>
+                                <tr><th>Fini le : </th><td>{{ task.closeDate ? task.closeDate|date('d/m/Y') }}</td></tr>
                                 <tr><th>Etat : </th><td class="{{ status }}">{{ task.state }}</td></tr>
                             </table>
-                            <p>{{ task.description }}</p>
+                            {# <p>{{ task.description }}</p> #}
                         </div>
                         <div class="card-footer">
                             <a href="{{ path('task_edit', {'id': task.id}) }}" class="btn btn-info w-100 my-1">Gérer</a>

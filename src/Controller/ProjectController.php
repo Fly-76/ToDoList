@@ -22,9 +22,10 @@ class ProjectController extends AbstractController
      */
     public function index(ProjectRepository $projectRepository): Response
     {
+        dump($this->getUser()->getId());
         return $this->render('project/index.html.twig', [
             'projects' => $projectRepository->findBy(
-                array('isArchived'=> false), 
+                array('isArchived'=> false, 'user'=>$this->getUser()->getId()), 
                 array('scheduleDate' => 'DESC'),
             )
         ]);
@@ -37,7 +38,7 @@ class ProjectController extends AbstractController
     {
         return $this->render('project/archive.html.twig', [
             'projects' => $projectRepository->findBy(
-                array('isArchived'=> true), 
+                array('isArchived'=> true, 'user'=>$this->getUser()->getId()), 
                 array('scheduleDate' => 'DESC'),
             )
         ]);
